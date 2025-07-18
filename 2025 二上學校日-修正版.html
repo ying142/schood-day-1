@@ -1,0 +1,895 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>胡適國小學校日</title>
+    <style>
+        /* 基本重置與 body 樣式 */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: '微軟正黑體', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+            display: flex; /* 使用 flexbox 垂直置中內容 */
+            align-items: center; /* 垂直置中內容 */
+            justify-content: center; /* 水平置中內容 */
+            position: relative; /* 為背景浮動元素提供定位上下文 */
+            overflow-x: hidden; /* 修正：移除 overflow: hidden; 改為只隱藏水平滾動條，以允許垂直滾動 */
+        }
+
+        /* 主要容器樣式 */
+        .container {
+            max-width: 1200px;
+            width: 100%; /* 確保在小螢幕上佔滿寬度 */
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+            animation: fadeIn 0.8s ease-out;
+            position: relative; /* 確保內容在浮動元素之上 */
+            z-index: 1; /* 確保內容在浮動元素之上 */
+        }
+
+        /* 容器的淡入動畫 */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* 頁首樣式，帶有漸層和閃爍星星 */
+        .header {
+            background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 50%, #fecfef 100%);
+            padding: 30px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header::before,
+        .header::after {
+            content: '🌟';
+            position: absolute;
+            font-size: 2em;
+            animation: twinkle 2s infinite;
+        }
+
+        .header::before {
+            top: 20px;
+            left: 50px;
+        }
+
+        .header::after {
+            top: 20px;
+            right: 50px;
+            animation-delay: 1s; /* 錯開星星閃爍效果 */
+        }
+
+        /* 星星閃爍動畫 */
+        @keyframes twinkle {
+            0%, 100% { opacity: 0.3; transform: scale(1); }
+            50% { opacity: 1; transform: scale(1.2); }
+        }
+
+        /* 頁首文字樣式 */
+        .school-title {
+            font-size: 2.5em;
+            color: #2c3e50;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .class-info {
+            font-size: 1.3em;
+            color: #34495e;
+            margin-bottom: 15px;
+        }
+
+        .date-info {
+            font-size: 1.1em;
+            color: #7f8c8d;
+            background: rgba(255,255,255,0.3);
+            padding: 10px 20px;
+            border-radius: 15px;
+            display: inline-block;
+        }
+
+        /* 主要內容區域 */
+        .main-content {
+            padding: 40px;
+        }
+
+        /* 視圖切換 */
+        .home-view {
+            display: block;
+            position: relative; /* 為內部插圖提供定位上下文 */
+        }
+
+        .section-view {
+            display: none;
+            padding-bottom: 80px; /* 為底部返回按鈕預留空間 */
+            position: relative; /* 返回按鈕絕對定位所需 */
+        }
+
+        /* 首頁菜單網格 */
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            grid-template-rows: repeat(2, 1fr);
+            gap: 25px;
+            margin-top: 30px;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* 菜單按鈕樣式 */
+        .menu-button {
+            border: none;
+            padding: 35px 25px;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+            position: relative;
+            overflow: hidden;
+            text-align: center;
+        }
+
+        /* 各菜單按鈕的特定背景漸層 */
+        .menu-button:nth-child(1) {
+            background: linear-gradient(135deg, #fef3c7 0%, #fed7aa 100%);
+        }
+
+        .menu-button:nth-child(2) {
+            background: linear-gradient(135deg, #dcfce7 0%, #bbf7d0 100%);
+        }
+
+        .menu-button:nth-child(3) {
+            background: linear-gradient(135deg, #fce7f3 0%, #f9a8d4 100%);
+        }
+
+        .menu-button:nth-child(4) {
+            background: linear-gradient(135deg, #e0f2fe 0%, #7dd3fc 100%);
+        }
+
+        /* 菜單按鈕的懸停效果 */
+        .menu-button:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.2);
+        }
+
+        /* 菜單按鈕懸停時的光澤效果 */
+        .menu-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+            transition: left 0.5s;
+        }
+
+        .menu-button:hover::before {
+            left: 100%;
+        }
+
+        /* 菜單按鈕的圖標、標題和副標題 */
+        .menu-button-icon {
+            font-size: 3em;
+            margin-bottom: 15px;
+            display: block;
+        }
+
+        .menu-button-title {
+            font-size: 1.8em;
+            font-weight: bold;
+            color: #2c3e50;
+            margin-bottom: 8px;
+        }
+
+        .menu-button-subtitle {
+            font-size: 1.1em;
+            color: #7f8c8d;
+        }
+
+        /* 返回按鈕樣式 - 定位在右下角 */
+        .back-button {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 15px;
+            font-size: 1.1em;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            position: absolute; /* 在 .section-view 內絕對定位 */
+            bottom: 20px;
+            right: 20px;
+            z-index: 10; /* 確保它在其他內容之上 */
+        }
+
+        .back-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+        }
+
+        /* 區塊標題樣式 */
+        .section-title {
+            font-size: 2.2em;
+            color: #2c3e50;
+            margin-bottom: 30px;
+            text-align: center;
+            position: relative;
+            padding-bottom: 15px;
+        }
+
+        /* 區塊標題的下劃線效果 */
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 4px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 2px;
+        }
+
+        /* 區塊內內容方塊的兩欄網格 */
+        .content-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr; /* 兩欄 */
+            gap: 25px;
+        }
+
+        /* 內容方塊樣式 */
+        .content-block {
+            color: #2c3e50;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            animation: slideIn 0.6s ease-out;
+            border: 2px solid #e1e8ed;
+            position: relative; /* 為偽元素定位所需 */
+            overflow: hidden; /* 確保偽元素不溢出 */
+        }
+
+        /* 內容方塊的淡入動畫 */
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateX(-30px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        /* 內容方塊內標題，帶有圖標對齊 */
+        .content-block h3 {
+            font-size: 1.8em;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px; /* 圖標與文字間距 */
+            color: #2c3e50;
+        }
+
+        /* 內容方塊內列表樣式 */
+        .content-block ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .content-block li {
+            margin-bottom: 12px;
+            padding-left: 25px;
+            position: relative;
+            font-size: 1.1em;
+            line-height: 1.6;
+        }
+
+        /* 列表項的自定義項目符號 */
+        .content-block li::before {
+            content: '✨'; /* 可愛表情符號作為項目符號 */
+            position: absolute;
+            left: 0;
+            top: 0;
+        }
+
+        /* 高亮文字樣式 */
+        .highlight {
+            background: linear-gradient(135deg, #fef3c7 0%, #fed7aa 100%);
+            padding: 2px 6px;
+            border-radius: 5px;
+            font-weight: bold;
+            color: #92400e;
+            border: 1px solid #f59e0b;
+        }
+
+        /* 子區塊樣式 */
+        .sub-section {
+            margin-bottom: 25px;
+        }
+
+        .sub-section h4 {
+            font-size: 1.4em;
+            margin-bottom: 15px;
+            color: #34495e;
+            background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%);
+            padding: 10px 15px;
+            border-radius: 10px;
+            border: 1px solid #93c5fd;
+        }
+
+        /* 自適應文字大小 */
+        .responsive-text {
+            font-size: clamp(1rem, 2vw, 1.2rem);
+            line-height: 1.8;
+        }
+
+        /* 內容方塊的背景插圖 */
+        .content-block::after {
+            content: ''; /* 預設內容，將被特定區塊覆蓋 */
+            position: absolute;
+            font-size: 8em; /* 大尺寸以呈現插圖效果 */
+            opacity: 0.15; /* 半透明 */
+            z-index: 0; /* 在內容之後 */
+            pointer-events: none; /* 不干擾點擊/選擇 */
+            transform: rotate(-15deg); /* 輕微旋轉以增加可愛度 */
+        }
+
+        /* 行事曆頁面內容方塊的顏色和插圖 */
+        #schedule .content-block {
+            background: linear-gradient(135deg, #e0f7fa 0%, #b2ebf2 100%); /* 淺藍/青色 */
+            border: 2px solid #80deea;
+        }
+        #schedule .content-block:nth-child(1)::after { content: '🗓️'; top: 10px; right: 10px; }
+        #schedule .content-block:nth-child(2)::after { content: '🥳'; bottom: 10px; left: 10px; }
+        #schedule .content-block:nth-child(3)::after { content: '🌴'; top: 50%; left: 50%; transform: translate(-50%, -50%) rotate(15deg); }
+
+        /* 班級事項頁面內容方塊的顏色和插圖 */
+        #class .content-block {
+            background: linear-gradient(135deg, #fce4ec 0%, #f8bbd0 100%); /* 淺粉色 */
+            border: 2px solid #f48fb1;
+        }
+        #class .content-block:nth-child(1)::after { content: '💡'; top: 10px; left: 10px; }
+        #class .content-block:nth-child(2)::after { content: '🏆'; bottom: 10px; right: 10px; }
+        #class .content-block:nth-child(3)::after { content: '🏡'; top: 50%; right: 10px; transform: translateY(-50%) rotate(-10deg); }
+        #class .content-block:nth-child(4)::after { content: '💸'; bottom: 10px; left: 10px; }
+
+        /* 課程計畫頁面內容方塊的顏色和插圖 */
+        #curriculum .content-block {
+            background: linear-gradient(135deg, #e8f5e9 0%, #c8e6c9 100%); /* 淺綠色 */
+            border: 2px solid #a5d6a7;
+        }
+        #curriculum .content-block:nth-child(1)::after { content: '✍️'; top: 10px; right: 10px; }
+        #curriculum .content-block:nth-child(2)::after { content: '🔢'; bottom: 10px; left: 10px; }
+        #curriculum .content-block:nth-child(3)::after { content: '🎨'; top: 50%; left: 10px; transform: translateY(-50%) rotate(10deg); }
+        #curriculum .content-block:nth-child(4)::after { content: '📊'; bottom: 10px; right: 10px; }
+
+        /* 自學與閱讀頁面內容方塊的顏色和插圖 */
+        #reading .content-block {
+            background: linear-gradient(135deg, #fff3e0 0%, #ffe0b2 100%); /* 淺橘/桃色 */
+            border: 2px solid #ffcc80;
+        }
+        #reading .content-block:nth-child(1)::after { content: '📖'; top: 10px; left: 10px; }
+        #reading .content-block:nth-child(2)::after { content: '🌉'; bottom: 10px; right: 10px; }
+        #reading .content-block:nth-child(3)::after { content: '🌟'; top: 50%; right: 10px; transform: translateY(-50%) rotate(-10deg); }
+        #reading .content-block:nth-child(4)::after { content: '💖'; bottom: 10px; left: 10px; }
+
+
+        /* 媒體查詢以適應響應式設計 */
+        @media (max-width: 992px) { /* 調整適用於較小桌面/大型平板 */
+            .content-grid {
+                grid-template-columns: 1fr; /* 在較小螢幕上單欄顯示 */
+            }
+        }
+
+        @media (max-width: 768px) {
+            body {
+                padding: 10px;
+            }
+            .container {
+                margin: 10px;
+                border-radius: 15px;
+            }
+
+            .header {
+                padding: 20px;
+            }
+
+            .school-title {
+                font-size: 2em;
+            }
+
+            .main-content {
+                padding: 20px;
+            }
+
+            .menu-grid {
+                grid-template-columns: 1fr;
+                grid-template-rows: auto;
+                gap: 20px;
+            }
+
+            .menu-button {
+                padding: 25px 20px;
+            }
+
+            .section-title {
+                font-size: 1.8em;
+            }
+
+            .back-button {
+                padding: 12px 25px;
+                font-size: 1em;
+                bottom: 15px;
+                right: 15px;
+            }
+        }
+
+        /* 全局浮動背景元素 */
+        .floating-emoji {
+            position: fixed;
+            font-size: 4em; /* 適中大小 */
+            opacity: 0.08; /* 非常透明 */
+            z-index: 0; /* 確保在所有內容之下 */
+            pointer-events: none; /* 不干擾用戶互動 */
+            animation: floatAndFade 15s infinite ease-in-out; /* 浮動和淡入淡出動畫 */
+        }
+
+        /* 浮動動畫 */
+        @keyframes floatAndFade {
+            0% { transform: translate(0, 0) rotate(0deg); opacity: 0.08; }
+            25% { transform: translate(10vw, 5vh) rotate(10deg); opacity: 0.12; }
+            50% { transform: translate(0, 10vh) rotate(0deg); opacity: 0.08; }
+            75% { transform: translate(-10vw, 5vh) rotate(-10deg); opacity: 0.12; }
+            100% { transform: translate(0, 0) rotate(0deg); opacity: 0.08; }
+        }
+
+        /* 為每個浮動元素設定不同的起始位置和延遲 */
+        .floating-emoji:nth-child(1) { top: 10%; left: 5%; animation-delay: 0s; }
+        .floating-emoji:nth-child(2) { top: 30%; right: 10%; animation-delay: 3s; font-size: 3em; }
+        .floating-emoji:nth-child(3) { bottom: 20%; left: 15%; animation-delay: 6s; }
+        .floating-emoji:nth-child(4) { top: 50%; right: 20%; animation-delay: 9s; font-size: 3.5em; }
+        .floating-emoji:nth-child(5) { bottom: 5%; left: 40%; animation-delay: 12s; }
+
+        /* 首頁菜單周圍的靜態可愛插圖 */
+        .home-illustration {
+            position: absolute;
+            font-size: 4em;
+            opacity: 0.2;
+            pointer-events: none;
+            z-index: 0;
+            transform: rotate(-5deg);
+        }
+        .home-illustration.top-left { top: 20px; left: 20px; content: '🌈'; transform: rotate(10deg); }
+        .home-illustration.top-right { top: 20px; right: 20px; content: '🎨'; transform: rotate(-15deg); }
+        .home-illustration.bottom-left { bottom: 20px; left: 20px; content: '✏️'; transform: rotate(5deg); }
+        .home-illustration.bottom-right { bottom: 20px; right: 20px; content: '📚'; transform: rotate(-20deg); }
+    </style>
+</head>
+<body>
+    <!-- 全局浮動背景元素 -->
+    <div class="floating-emoji" style="top: 10%; left: 5%;">📝</div>
+    <div class="floating-emoji" style="top: 30%; right: 10%;">💡</div>
+    <div class="floating-emoji" style="bottom: 20%; left: 15%;">✨</div>
+    <div class="floating-emoji" style="top: 50%; right: 20%;">💯</div>
+    <div class="floating-emoji" style="bottom: 5%; left: 40%;">💖</div>
+
+    <div class="container">
+        <div class="header">
+            <div class="school-title">🏫 學校日</div>
+            <div class="class-info">胡適國小 114 上學期 • 二年四班</div>
+            <div class="class-info">班級導師：林莉螢 老師</div>
+            <div class="date-info">📅 2025年9月13日 (六) AM 8:30</div>
+        </div>
+
+        <div class="main-content">
+            <!-- 首頁 -->
+            <div id="home" class="home-view">
+                <!-- 首頁菜單周圍的靜態可愛插圖 -->
+                <div class="home-illustration top-left">🌈</div>
+                <div class="home-illustration top-right">🎨</div>
+                <div class="home-illustration bottom-left">✏️</div>
+                <div class="home-illustration bottom-right">📚</div>
+
+                <div class="menu-grid">
+                    <button class="menu-button" onclick="showSection('schedule')">
+                        <span class="menu-button-icon">📅</span>
+                        <div class="menu-button-title">行事曆</div>
+                        <div class="menu-button-subtitle">期中期末考試、重要活動、假期安排</div>
+                    </button>
+
+                    <button class="menu-button" onclick="showSection('class')">
+                        <span class="menu-button-icon">👨‍🏫</span>
+                        <div class="menu-button-title">班級事項</div>
+                        <div class="menu-button-subtitle">教學理念、班級經營、家長協助</div>
+                    </button>
+
+                    <button class="menu-button" onclick="showSection('curriculum')">
+                        <span class="menu-button-icon">📚</span>
+                        <div class="menu-button-title">課程計畫</div>
+                        <div class="menu-button-subtitle">國語、數學、生活課程教學</div>
+                    </button>
+
+                    <button class="menu-button" onclick="showSection('reading')">
+                        <span class="menu-button-icon">📖</span>
+                        <div class="menu-button-title">自學與閱讀</div>
+                        <div class="menu-button-subtitle">閱讀推廣、橋梁書推薦</div>
+                    </button>
+                </div>
+            </div>
+
+            <!-- 行事曆 -->
+            <div id="schedule" class="section-view">
+                <h2 class="section-title">📅 行事曆</h2>
+                <div class="content-grid">
+                    <div class="content-block">
+                        <h3>⏰ 評量時間</h3>
+                        <div class="sub-section">
+                            <h4>期中評量</h4>
+                            <ul>
+                                <li><span class="highlight">10月30日 (四)</span> - 國語</li>
+                                <li><span class="highlight">10月31日 (五)</span> - 數學</li>
+                                <li>隨堂考 - 英語</li>
+                            </ul>
+                        </div>
+                        <div class="sub-section">
+                            <h4>期末評量</h4>
+                            <ul>
+                                <li><span class="highlight">1月6日 (二)</span> - 國語、自然</li>
+                                <li><span class="highlight">1月8日 (四)</span> - 數學</li>
+                                <li>隨堂考 - 英語</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="content-block">
+                        <h3>🎉 重要活動</h3>
+                        <ul>
+                            <li><span class="highlight">10月7日 (二)</span> - 流感注射</li>
+                            <li><span class="highlight">11月15日 (六)</span> - 體表會</li>
+                            <li><span class="highlight">11月25日 (一)</span> - 說故事比賽</li>
+                            <li><span class="highlight">12月26日 (二)</span> - 歲末社團表演</li>
+                            <li>校外教學 日期 未定  - 地點：偶戲館</li>
+                            <li><span class="highlight">1月20日 (二)</span> - 休業式</li>
+                            <li><span class="highlight">01/21(三) ~ 01/23(五)</span> - 春節彈性補課</li>
+                        </ul>
+                    </div>
+
+                    <div class="content-block">
+                        <h3>🏖️ 假期</h3>
+                        <ul>
+                            <li><span class="highlight">09/27(六) ~ 09/29(一)</span> - 教師節連假</li>
+                            <li><span class="highlight">10/06(一)</span> - 中秋節</li>
+                            <li><span class="highlight">10/10(五) ~ 10/12(一)</span> - 國慶連假</li>
+                            <li><span class="highlight">10/24(五) ~ 10/26(日)</span> - 光復節連假</li>
+                            <li><span class="highlight">11/17(一)</span> - 體表會補假</li>
+                            <li><span class="highlight">01/01(四)</span> - 元旦補假</li>
+                            <li><span class="highlight">01/24(六) ~ 02/22(日)</span> - 寒假</li>
+                            <li><span class="highlight">02/23(一)</span> - 第二學期開學</li>
+                        </ul>
+                    </div>
+                </div>
+                <button class="back-button" onclick="showHome()">← 返回首頁</button>
+            </div>
+
+            <!-- 班級事項 -->
+            <div id="class" class="section-view">
+                <h2 class="section-title">👨‍🏫 班級事項</h2>
+                <div class="content-grid">
+                    <div class="content-block">
+                        <h3>💖 教學理念</h3>
+                        <ul>
+                            <li><span class="highlight">核心理念</span>：以愛與榜樣為核心</li>
+                            <li><span class="highlight">目標</span>：培養尊重、負責、善良、積極的好孩子</li>
+                            <li><span class="highlight">教學方法</span>：推行學習共同體與合作學習</li>
+                            <li>培養學生獨立思考、判斷、表達的能力</li>
+                        </ul>
+                    </div>
+
+                    <div class="content-block">
+                        <h3>👑 班級經營與榮譽制度</h3>
+                        <div class="sub-section">
+                            <h4>重點項目</h4>
+                            <ul>
+                                <li>首重生活常規、品格、合群</li>
+                                <li>特別注重整理書包、文具、作業</li>
+                            </ul>
+                        </div>
+                        <div class="sub-section">
+                            <h4>榮譽制度</h4>
+                            <ul>
+                                <li>收集<span class="highlight">5個印章</span>可兌換動物獎卡</li>
+                                <li>集滿<span class="highlight">50張動物獎卡</span>可換取榮譽簿</li>
+                                <li>榮譽簿將轉化為榮譽存摺e化</li>
+                                <li>可使用「胡適E酷幣」網站</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="content-block">
+                        <h3>🏠 家長協助事項</h3>
+                        <ul>
+                            <li><span class="highlight">規律作息</span>：確保孩子吃完早餐且準時到校</li>
+                            <li><span class="highlight">姿勢</span>：注意孩子寫字、閱讀等姿勢</li>
+                            <li><span class="highlight">請假</span>：請善用聯絡本</li>
+                            <li><span class="highlight">學習工具</span>：削好3枝鉛筆、尺墊板、剪刀、膠水</li>
+                            <li><span class="highlight">生活自理</span>：整理置物櫃、抽屜、打掃、綁鞋帶</li>
+                            <li><span class="highlight">良好習慣</span>：每天簽閱聯絡簿、檢查作業、整理書包</li>
+                        </ul>
+                    </div>
+
+                    <div class="content-block">
+                        <h3>💰 代辦費-未定</h3>
+                        <ul>
+                            <li>作業簿：</li>
+                            <li>美勞材料：</li>
+                            <li>名牌:</li>
+                             <li>國數作業簿：</li>
+                             <li>補充閱讀：</li>
+                             <li>校外教學：</li>
+                              <li>、影印費</li>
+                        </ul>
+                    </div>
+                </div>
+                <button class="back-button" onclick="showHome()">← 返回首頁</button>
+            </div>
+
+            <!-- 課程計畫 -->
+            <div id="curriculum" class="section-view">
+                <h2 class="section-title">📚 課程計畫</h2>
+                <div class="content-grid">
+                    <div class="content-block">
+                        <h3>✍️ 國語文教學</h3>
+                        <div class="sub-section">
+                            <h4>教學重點</h4>
+                            <ul>
+                                <li><span class="highlight">聽</span>：理解能力培養</li>
+                                <li><span class="highlight">說</span>：完整發表想法</li>
+                                <li><span class="highlight">寫</span>：筆順、筆畫、造句、積木字、短文寫作</li>
+                                <li><span class="highlight">讀</span>：課外閱讀培養</li>
+                            </ul>
+                        </div>
+                        <div class="sub-section">
+                            <h4>具體內容</h4>
+                            <ul>
+                                <li>國語課本共<span class="highlight">12課</span>(約216字)</li>
+                                <li>搭配甲乙本、國習、國作</li>
+                                <li>背誦、心智圖、積木字</li>
+                                <li>聽寫、考卷、默寫</li>
+                                <li>查字典、造句、修辭、短文創作</li>
+                            </ul>
+                        </div>
+                        <div class="sub-section">
+                            <h4>語文活動</h4>
+                            <ul>
+                                <li>貓頭鷹信箱、盡興說</li>
+                                <li>詩詞背誦</li>
+                                <li>小作家（創作短文）</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="content-block">
+                        <h3>➕ 數學教學</h3>
+                        <div class="sub-section">
+                            <h4>教學內容</h4>
+                            <ul>
+                                <li><span class="highlight">300以內的數與量</span></li>
+                                <li><span class="highlight">二位數加減</span>（含進位、退位、應用題）</li>
+                                <li><span class="highlight">乘法</span>（九九乘法表背誦、理解與應用）</li>
+                                <li><span class="highlight">容量、重量、平面、公分</span></li>
+                                <li><span class="highlight">幾時幾分</span>的概念</li>
+                            </ul>
+                        </div>
+                        <div class="sub-section">
+                            <h4>教學方法</h4>
+                            <ul>
+                                <li>實物操作 → 半具體 → 抽象思考</li>
+                                <li>使用圖、數線輔助</li>
+                                <li>強調計算熟練</li>
+                                <li>應用題文字理解轉換為數學符號</li>
+                                <li>透過畫圖、畫線協助理解</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="content-block">
+                        <h3>🎨 生活課程教學</h3>
+                        <div class="sub-section">
+                            <h4>美勞學習目標</h4>
+                            <ul>
+                                <li>培養想像力與創作力</li>
+                                <li>正確使用水彩用具、色鉛筆、彩色筆</li>
+                                <li>維護自己及他人的安全與整潔</li>
+                            </ul>
+                        </div>
+                        <div class="sub-section">
+                            <h4>社會學習目標</h4>
+                            <ul>
+                                <li>認識學校附近</li>
+                                <li>學習歲末傳溫情</li>
+                                <li>米粒魔術師等主題</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="content-block">
+                        <h3>💯 評量方式</h3>
+                        <div class="sub-section">
+                            <h4>多元評量</h4>
+                            <ul>
+                                <li><span class="highlight">形成性評量 50%</span>：平時作業、參與討論、發表、習作、平時考及學習態度</li>
+                                <li><span class="highlight">總結性評量 50%</span></li>
+                            </ul>
+                        </div>
+                        <div class="sub-section">
+                            <h4>校本課程</h4>
+                            <ul>
+                                <li>有獎徵文線上投稿</li>
+                                <li>認證及借閱書籍</li>
+                                <li>盡興說（到各班說故事）</li>
+                                <li>每週念故事（口語表達）</li>
+                                <li>成績列入期末正式成績</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <button class="back-button" onclick="showHome()">← 返回首頁</button>
+            </div>
+
+            <!-- 自學與閱讀 -->
+            <div id="reading" class="section-view">
+                <h2 class="section-title">📖 自學與閱讀</h2>
+                <div class="content-grid">
+                    <div class="content-block">
+                        <h3>📚 閱讀推廣</h3>
+                        <div class="sub-section">
+                            <h4>閱讀形式</h4>
+                            <ul>
+                                <li><span class="highlight">補充閱讀</span></li>
+                                <li><span class="highlight">課外閱讀</span>（閱讀認證，共讀與自行選讀）</li>
+                                <li><span class="highlight">圖書館借閱</span>（每週三、五為借還書日）</li>
+                            </ul>
+                        </div>
+                        <div class="sub-section">
+                            <h4>閱讀資源</h4>
+                            <ul>
+                                <li><span class="highlight">共讀書</span>：橋梁書:各班輪讀+ 認證 </li>
+                                <li><span class="highlight">輪讀書</span>：「我愛瑪婷」（上下學期，共52本可認證）</li>
+                                <li><span class="highlight">線上平台</span>：「悅閱生活家」</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="content-block">
+                        <h3>🌉 橋梁書介紹</h3>
+                        <div class="sub-section">
+                            <h4>什麼是橋梁書？</h4>
+                            <ul>
+                                <li>幫助孩子銜接到純文字書籍的過渡書籍</li>
+                                <li>以文字為主，圖畫為輔</li>
+                            </ul>
+                        </div>
+                        <div class="sub-section">
+                            <h4>三大好處</h4>
+                            <ul>
+                                <li>增加文字閱讀能力</li>
+                                <li>培養獨立閱讀習慣</li>
+                                <li>加強邏輯推理能力</li>
+                            </ul>
+                        </div>
+                        <div class="sub-section">
+                            <h4>範例書籍</h4>
+                            <ul>
+                                <li>屁屁超人、屁屁偵探</li>
+                                <li>可跨越國小三至四年級程度</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="content-block">
+                        <h3>⭐ 推薦書單</h3>
+                        <div class="sub-section">
+                            <h4>推薦橋梁書系列</h4>
+                            <ul>
+                                <li><span class="highlight">親子天下-閱讀123</span></li>
+                                <li><span class="highlight">怪傑佐羅力</span></li>
+                                <li><span class="highlight">什麼都行魔女商店</span></li>
+                                <li><span class="highlight">露露和拉拉</span></li>
+                                <li><span class="highlight">小妖怪系列</span>（字大、有注音）</li>
+                            </ul>
+                        </div>
+                        <div class="sub-section">
+                            <h4>精選推薦</h4>
+                            <ul>
+                                <li><span class="highlight">《用點心學校》</span>（共12本，適合國小低中年級）</li>
+                                <li><span class="highlight">《君偉上小學系列》</span>（適合國小中年級以上）</li>
+                                <li><span class="highlight">《狐說八道》</span>（全套4冊，適合國小低中年級）</li>
+                                <li><span class="highlight">《愛思考的貓巧可‧哲學思辨故事集》</span>（全套五冊）</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="content-block">
+                        <h3>🎓 結語</h3>
+                        <div class="responsive-text">
+                            <p style="margin-bottom: 20px;">鼓勵培養孩子具備<span class="highlight">獨立思考、積極態度、負責、創意、善良、感恩、健康、快樂</span>等特質。</p>
+                            <p style="font-style: italic; text-align: center; background: rgba(255,255,255,0.1); padding: 20px; border-radius: 10px;">
+                                「在玫瑰花身上耗費的時間，使得你的玫瑰花變得如此重要。」<br>
+                                因為對孩子的教養與投入，班上每一個孩子對我都有不可取代的價值。
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <button class="back-button" onclick="showHome()">← 返回首頁</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 顯示特定區塊並隱藏其他區塊的函數
+        function showSection(sectionId) {
+            // 隱藏首頁
+            document.getElementById('home').style.display = 'none';
+            
+            // 隱藏所有分頁
+            const sections = ['schedule', 'class', 'curriculum', 'reading'];
+            sections.forEach(id => {
+                document.getElementById(id).style.display = 'none';
+            });
+            
+            // 顯示選定的分頁
+            document.getElementById(sectionId).style.display = 'block';
+            
+            // 滾動到頂部
+            window.scrollTo(0, 0);
+        }
+
+        // 顯示首頁並隱藏所有區塊的函數
+        function showHome() {
+            // 隱藏所有分頁
+            const sections = ['schedule', 'class', 'curriculum', 'reading'];
+            sections.forEach(id => {
+                document.getElementById(id).style.display = 'none';
+            });
+            
+            // 顯示首頁
+            document.getElementById('home').style.display = 'block';
+            
+            // 滾動到頂部
+            window.scrollTo(0, 0);
+        }
+
+        // 頁面載入時為菜單按鈕添加動畫效果
+        window.addEventListener('load', function() {
+            const menuButtons = document.querySelectorAll('.menu-button');
+            menuButtons.forEach((button, index) => {
+                button.style.opacity = '0';
+                button.style.transform = 'translateY(20px)';
+                setTimeout(() => {
+                    button.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+                    button.style.opacity = '1';
+                    button.style.transform = 'translateY(0)';
+                }, index * 200); // 錯開每個按鈕的動畫
+            });
+        });
+
+        // 添加鍵盤導航支援（按下 Escape 鍵返回首頁）
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'Escape') {
+                showHome();
+            }
+        });
+    </script>
+</body>
+</html>
